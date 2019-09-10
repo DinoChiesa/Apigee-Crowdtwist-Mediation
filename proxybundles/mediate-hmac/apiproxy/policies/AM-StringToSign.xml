@@ -1,0 +1,27 @@
+<AssignMessage name='AM-StringToSign'>
+  <DisplayName>AM-MessageConstituents</DisplayName>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+
+  <!-- timestamp -->
+  <AssignVariable>
+    <Name>seconds_since_epoch</Name>
+    <Template>{substring(system.timestamp,0,-3)}</Template>
+  </AssignVariable>
+
+  <!-- the short URI (not including proxy basepath) -->
+  <AssignVariable>
+    <Name>shorturi</Name>
+    <Template>{replaceFirst(message.uri,proxy.basepath,'')}</Template>
+  </AssignVariable>
+
+  <!-- the string to sign, including newlines -->
+  <AssignVariable>
+    <Name>stringToSign</Name>
+    <Template>{request.verb}
+{md5}
+{request.header.content-type}
+{seconds_since_epoch}
+{shorturi}</Template>
+  </AssignVariable>
+
+</AssignMessage>

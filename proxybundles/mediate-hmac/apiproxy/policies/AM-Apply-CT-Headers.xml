@@ -1,0 +1,21 @@
+<AssignMessage name='AM-Apply-CT-Headers'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+
+  <!--
+      the CrowdTwist protocol is a little quirky in that
+      it requires base64-encoding the already-hex-encoded HMAC.
+  -->
+  <AssignVariable>
+    <Name>base64Hmac</Name>
+    <Template>{encodeBase64(hmac.signature.hex)}</Template>
+  </AssignVariable>
+
+  <!-- actually set the headers -->
+  <Set>
+    <Headers>
+      <Header name='X-CT-Authorization'>CTApiV2Auth {crowdtwist_publickey}:{base64Hmac}</Header>
+      <Header name='X-CT-Timestamp'>{seconds_since_epoch}</Header>
+    </Headers>
+  </Set>
+
+</AssignMessage>

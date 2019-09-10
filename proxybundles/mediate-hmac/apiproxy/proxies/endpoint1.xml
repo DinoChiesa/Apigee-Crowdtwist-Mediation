@@ -1,0 +1,109 @@
+<ProxyEndpoint name="endpoint1">
+
+  <HTTPProxyConnection>
+    <BasePath>/mediate-hmac</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response/>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response/>
+  </PostFlow>
+
+  <PostClientFlow name="PostFlow">
+    <Request/>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+    <Flow name="t1">
+      <Request>
+        
+        <!-- Verify the APIKey (aka client_id).
+             Possible alternatives to this:
+             - verify an OAuth2.0 token
+             - verify a signed JWT issued by _anyone_
+             - verify a distinct HMAC based on client_secret
+             - something else?
+        -->
+        <Step>
+          <Name>VerifyAPIKey-1</Name>
+          <Condition>request.header.insecure = null</Condition>
+        </Step>
+        
+        <!-- retrieve credentials from key-value store -->
+        <Step>
+          <Name>KVM-Retrieve-Crowdtwist-Keys</Name>
+          <Condition>request.header.insecure = null</Condition>
+        </Step>
+        
+        <!-- extract credentials from JSON based on client_id -->
+        <Step>
+          <Name>AM-Assign-Crowdtwist-Keys</Name>
+          <Condition>request.header.insecure = null</Condition>
+        </Step>
+        
+        <!-- use sample credentials (from CT doc page) if mock -->
+        <Step>
+          <Name>AM-SampleCredentials</Name>
+          <Condition>request.header.insecure != null</Condition>
+        </Step>
+        
+        <!-- preprocess or calculate some inputs for the HMAC -->
+        <Step>
+          <Name>AM-ContentMD5</Name>
+          <Condition>(request.verb != "GET") AND (request.verb != "DELETE") </Condition>
+        </Step>
+
+        <!-- create the string to sign -->
+        <Step>
+          <Name>AM-StringToSign</Name>
+        </Step>
+
+        <!-- calculate the HMAC on that string -->
+        <Step>
+          <Name>CalculateHMAC-1</Name>
+        </Step>
+        
+        <!-- inject the required X-CT-Authorization and -Timestamp headers -->
+        <Step>
+          <Name>AM-Apply-CT-Headers</Name>
+        </Step>
+      </Request>
+      
+      <Response>
+      </Response>
+      <!--
+      <Condition>(request.verb = "POST") OR (request.verb = "GET")</Condition>
+      -->
+    </Flow>
+
+<!--
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-UnknownRequest</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+    </Flow>
+-->
+
+  </Flows>
+
+  <RouteRule name="default">
+    <TargetEndpoint>crowdtwist-upstream</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>

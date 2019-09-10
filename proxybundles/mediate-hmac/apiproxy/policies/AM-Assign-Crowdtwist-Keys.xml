@@ -1,0 +1,28 @@
+<AssignMessage name='AM-Assign-Crowdtwist-Keys'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+
+  <!-- produce a JSONPath expression to get the public key -->
+  <AssignVariable>
+    <Name>path_1</Name>
+    <Template>$.keys['{client_id}'].public</Template>
+  </AssignVariable>
+
+  <!-- produce a JSONPath expression to get the secret key -->
+  <AssignVariable>
+    <Name>path_2</Name>
+    <Template>$.keys['{client_id}'].secret</Template>
+  </AssignVariable>
+
+  <!-- evaluate the jsonpath for the public key -->
+  <AssignVariable>
+    <Name>crowdtwist_publickey</Name>
+    <Template>{jsonPath(path_1,crowdtwist_keys)}</Template>
+  </AssignVariable>
+
+  <!-- evaluate the jsonpath for the secret key -->
+  <AssignVariable>
+    <Name>private.crowdtwist_secretkey</Name>
+    <Template>{jsonPath(path_2,crowdtwist_keys)}</Template>
+  </AssignVariable>
+
+</AssignMessage>

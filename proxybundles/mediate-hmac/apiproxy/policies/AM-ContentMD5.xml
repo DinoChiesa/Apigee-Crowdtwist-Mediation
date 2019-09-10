@@ -1,0 +1,9 @@
+<AssignMessage name='AM-ContentMD5'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+
+   <AssignVariable>
+    <Name>md5</Name>
+    <Template>{md5Hex(request.content)}</Template>
+   </AssignVariable>
+
+</AssignMessage>

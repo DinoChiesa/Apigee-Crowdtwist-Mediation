@@ -1,0 +1,10 @@
+<JavaCallout name='CalculateHMAC-1'>
+  <Properties>
+    <Property name="string-to-sign">{stringToSign}</Property>
+    <Property name="key">{private.crowdtwist_secretkey}</Property>
+    <Property name="algorithm">SHA-256</Property>
+    <Property name="debug">true</Property>
+  </Properties>
+  <ClassName>com.apigee.callout.hmac.HmacCreatorCallout</ClassName>
+  <ResourceURL>java://apigee-hmac-edge-callout-1.0.4.jar</ResourceURL>
+</JavaCallout>

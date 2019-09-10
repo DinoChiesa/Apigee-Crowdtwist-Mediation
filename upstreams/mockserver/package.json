@@ -1,0 +1,24 @@
+{
+  "name": "hmacserver",
+  "description": "mock API server that computes / verifies HMACs.",
+  "version": "0.0.3",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Dino Chiesa",
+    "email": "dchiesa@google.com"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "node-cache": "^4.2.1",
+    "plaintextparser": "^1.0.3"
+  },
+  "engines": {
+    "node": "10.x.x"
+  }
+}

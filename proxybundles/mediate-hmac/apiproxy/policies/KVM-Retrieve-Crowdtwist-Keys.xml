@@ -1,0 +1,29 @@
+<KeyValueMapOperations name='KVM-Retrieve-Crowdtwist-Keys' mapIdentifier='plaintext'>
+  <Scope>environment</Scope>
+  <ExpiryTimeInSecs>10</ExpiryTimeInSecs>
+
+  <Get assignTo='crowdtwist_keys'>
+    <Key>
+      <Parameter>crowdtwist_keys</Parameter>
+    </Key>
+  </Get>
+
+  <!-- the JSON looks like this:
+{
+  "keys" : {
+    "clientid1" : {
+      "public" : "ABCl3y7r0s5ukCXz5lCJOCrTZ427pjp5",
+      "secret" : "ABttp1b92Tb65445rmZL835f263n1q4Y"
+    },
+
+    "qTqWqfzldOst3nDA7Lke8hwUtltjqGmz" : {
+      "public" : "ABCl3y7r0s5ukCXz5lCJOCrTZ427pjp5",
+      "secret" : "ABttp1b92Tb65445rmZL835f263n1q4Y"
+    }
+  }
+}
+
+Note : add more client ids as necessary.
+
+  -->
+</KeyValueMapOperations>
