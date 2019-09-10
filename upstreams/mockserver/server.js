@@ -121,15 +121,15 @@ function requestHandler(request, response, next) {
           calculated : check
         };
 
-    let statusCode = (check.valid) ? 200 : 401;
-
     // check timestamp
     let now = Math.floor((new Date()).valueOf() / 1000),
-        tsNumber = new Number(timestamp);
+        tsNumber = Number(timestamp);
 
     outboundPayload.validTimestamp = (now - tsNumber < FIFTEEN_MINUTES);
 
     if (request.text) outboundPayload.inbound.body = request.text;
+
+    let statusCode = (check.valid) ? 200 : 401;
 
     response.status(statusCode)
       .json(outboundPayload)
