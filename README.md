@@ -164,10 +164,12 @@ Proxy configuration.
 
 ## Bugs
 
-* The mock upstream does not strictly verify timestamps. 
+* The mock upstream does not strictly verify timestamps.
+
+* The mock server does not issue the same errors as is documented for the CT service. 
 
 * The credentials for Crowdtwist are stored in plaintext (unencrypted). This is
-  donw only for demonstration purposes. Before using this proxy in production,
+  done only for demonstration purposes. Before using this proxy in production,
   modify it to use an encrypted KVM store in Apigee Edge. 
 
 

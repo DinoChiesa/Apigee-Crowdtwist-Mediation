@@ -11,14 +11,15 @@ const express       = require('express'),
       morganLogging = require('morgan'),
       app           = express(),
       crypto        = require('crypto'),
-      gVersion      = '20190909-1422',
       http          = require('http');
 
 const hmacKeyLookupTable = {
         "apikey" : "hmacsecret",
         ABCl3y7r0s5ukCXz5lCJOCrTZ427pjp5 : "ABttp1b92Tb65445rmZL835f263n1q4Y"
       },
-      hmacAlg = 'SHA256';
+      gVersion      = '20190909-1422',
+      hmacAlg = 'SHA256',
+      FIFTEEN_MINUTES = 15 * 60 * 60;
 
 function rawBody(req, res, next) {
   req.setEncoding('utf8');
@@ -108,20 +109,25 @@ function checkHmac(request){
 
 function requestHandler(request, response, next) {
   try {
-    let check = checkHmac(request);
-    let outboundPayload = {
+    let check = checkHmac(request),
+        timestamp = request.headers['x-ct-timestamp'] || "0",
+        outboundPayload = {
           inbound: {
             method: request.method,
             url: request.url,
             sig: request.headers['x-ct-authorization'] || "undefined",
-            timestamp: request.headers['x-ct-timestamp'] || "undefined"
+            timestamp
           },
           calculated : check
         };
 
     let statusCode = (check.valid) ? 200 : 401;
 
-    // TODO: check timestamp
+    // check timestamp
+    let now = Math.floor((new Date()).valueOf() / 1000),
+        tsNumber = new Number(timestamp);
+
+    outboundPayload.validTimestamp = (now - tsNumber < FIFTEEN_MINUTES);
 
     if (request.text) outboundPayload.inbound.body = request.text;
 

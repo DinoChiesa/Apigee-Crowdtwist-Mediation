@@ -1,12 +1,13 @@
 {
-  "name": "hmacserver",
-  "description": "mock API server that computes / verifies HMACs.",
+  "name": "mockserver",
+  "description": "mock API server that computes / verifies HMACs as a mock of Crowdtwist.",
   "version": "0.0.3",
   "main": "server.js",
   "scripts": {
     "start": "node ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "license" : "Apache-2.0",
   "author": {
     "name": "Dino Chiesa",
     "email": "dchiesa@google.com"
