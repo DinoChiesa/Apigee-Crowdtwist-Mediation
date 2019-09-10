@@ -7,6 +7,35 @@ This example shows the solution to one specific "exposure" problem: security
 mediation between a mobile client and a Crowdtwist backend that requires an
 HMAC-based authentication mechanism.
 
+## What it Does
+
+[Crowdtwist](https://developers.crowdtwist.com/hmac-authentication/) requires
+registration to see the API documentation. But the basic idea is: 
+
+0. Obtain a publickey+secretkey pair from Crowdtwist. 
+
+1. Create a string-to-sign like this: 
+   ```
+   StringToSign = 
+   HTTP-Verb + "\n" +
+   Base16(Content-MD5) + "\n" +
+   Content-Type + "\n" +
+   Timestamp + "\n" +
+   RequestURI
+   ```
+
+2. Produce the HMAC-SHA256 using the secretkey. Encode the resulting
+   byte stream as Hex (base16) and then encode _that_ as Base64.
+
+3. Insert two headers formatted like so: 
+   ```
+   X-CT-Authorization: CTApiV2Auth [public key]:[encoded_signature]
+   X-CT-Timestamp: [seconds-since-epoch]
+   ```
+
+This API Proxy performs those steps on behalf of a client, thereby "mediating"
+the security protocol required by Crowdtwist.
+
 ## Disclaimer
 
 This example is not an official Google product, nor is it part of an
@@ -74,7 +103,10 @@ Here are the steps involved:
    Copy the ngrok URI shown in your terminal. 
    
 3. Open a browser to the Apigee Edge proxy, and modify the target URI to 
-   use the URI you just copied. Save the proxy and redeploy it.
+   use the URI you just copied. 
+   ![TargetEndpoint](./images/screenshot-20190910-122941.png "Proxy Editor")
+   
+   Save the proxy and redeploy it.
 
 4. Open a third terminal window, and invoke your proxy: 
 
