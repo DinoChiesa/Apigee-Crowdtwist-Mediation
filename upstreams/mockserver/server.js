@@ -125,6 +125,7 @@ function requestHandler(request, response, next) {
     let now = Math.floor((new Date()).valueOf() / 1000),
         tsNumber = Number(timestamp);
 
+    outboundPayload.timeDelta = now - tsNumber;
     outboundPayload.validTimestamp = (now - tsNumber < FIFTEEN_MINUTES);
 
     if (request.text) outboundPayload.inbound.body = request.text;
