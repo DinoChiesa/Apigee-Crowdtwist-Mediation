@@ -13,8 +13,8 @@
     "email": "dchiesa@google.com"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
     "morgan": "^1.9.1",
     "node-cache": "^4.2.1",
     "plaintextparser": "^1.0.3"
